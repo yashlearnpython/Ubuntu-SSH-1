@@ -15,6 +15,33 @@ jobs:
         key_file: id_ecdsa
     - uses: actions/checkout@v2
     - uses: rokibhasansagar/slimhub_actions@main
+    - name: Generate config.prop
+      continue-on-error: true
+      timeout-minutes: 3
+      run: |
+           cd ~/
+           mkdir yash
+           cd yash
+           wget https://raw.githubusercontent.com/yashlearnpython/gsibot-personal/dependabot/add-v2-config-file/GSIBot.jar
+           java -jar GSIBot.jar
+           rm -rf configs/config.prop && rm -rf configs/sf-creds.config
+           cd configs
+           touch config.prop
+           echo "#Bo³+t config file" >> "config.prop"
+           echo "#Fri Jun 26 06:08:12 UTC 2020" >> "config.prop"
+           echo "bot-username=${{ secrets.BOTUN }}" >> "config.prop"
+           echo "bot-token=${{ secrets.BOTKEY }}" >> "config.prop"
+           echo "bot-master=${{ secrets.USERKEY }}" >> "config.prop"
+           echo "bot-submaster=${{ secrets.SUBKEY }}" >> "config.prop"
+           touch sf-creds.config
+           echo "#Config file" >> "sf-creds.config"
+           echo "#Sun Nov 08 09:30:49 PST 2020" >> "sf-creds.config"
+           echo "bot-sf-user=${{ secrets.SFUSER }}" >> "sf-creds.config"
+           echo "bot-send-announcement=true" >> "sf-creds.config"
+           echo "bot-sf-proj=${{ secrets.PROJECT }}" >> "sf-creds.config"
+           echo "bot-announcement-id=-1001427383040" >> "sf-creds.config"
+           echo "bot-sf-pass=${{ secrets.SFPASS }}" >> "sf-creds.config"
+           echo "bot-sf-host=frs.sourceforge.net" >> "sf-creds.config"
     - run: source ubuntu-run.sh
     - name: Setup tmate session
       uses: mxschmitt/action-tmate@master
